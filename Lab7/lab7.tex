@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{moreverb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\title{STA 360: Lab 7}
+\author{Michael Lin}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+	\item Full conditional of $\beta_{0i}$:
+	\begin{align*}
+		\beta_{0i}|Y_{ij},\beta_{1i}, \tau, \tau_0, \tau_1 &= \beta_{0i}|Y_{ij} \sim p(\beta_{0i})\prod_{j=1}^{p}p(Y_{ij}) \\
+		&=\text{No}(\beta_{0i}|\mu_0, \tau_0)\prod_{j=1}^{p}\text{No}(Y_{ij}|\beta_{0i}+\beta_{1i}x_j, \tau) \\
+		&\propto \exp\{-\frac{(\beta_{0i}-\mu_0)^2}{2\tau_0}\}\prod_{j=1}^{p}\exp\{-\frac{(Y_{ij}-(\beta_{0i}+\beta_{1i}x_j))^2}{2\tau}\} \\
+		&=\exp\{-\frac{(\beta_{0i}-\mu_0)^2}{2\tau_0}-\frac{\sum\nolimits_{j=1}^n(Y_{ij}-(\beta_{0i}+\beta_{1i}x_j))^2}{2\tau}\} \\
+		&\propto \exp\{-\frac{\beta_{0i}^2-2\beta_{0i}\mu_0}{2\tau_0}-\frac{p\beta_{0i}^2+\beta_{0i}\sum\nolimits_{j=1}^p(\beta_{1i}x_j-Y_{ij})}{\tau}\}\\
+		&=\exp\{-(\frac{1}{2\tau_0}+\frac{p}{2\tau})\beta_{0i}^2+[\frac{\mu_0}{\tau_0}-\frac{\sum\nolimits_{j=1}^p(\beta_{1i}x_j-Y_{ij})}{\tau}]\beta_{0i}\}\\
+		&=\exp\{-\frac{1}{2}(\frac{1}{\tau_0}+\frac{p}{\tau})[\beta_{0i}^2-2\beta_{0i}\frac{\frac{\mu_0}{\tau_0}-\frac{\sum\nolimits_{j=1}^p(\beta_{1i}x_j-Y_{ij})}{\tau}}{\frac{1}{\tau_0}+\frac{p}{2\tau}}]\} \\
+		&\propto \text{No}(\beta_{0i}|\mu', \tau')
+	\end{align*}
+	where
+	$$\mu'= \frac{\frac{\mu_0}{\tau_0}+\frac{\sum\nolimits_{j=1}^pY_{ij}}{\tau}}{\frac{1}{\tau_0}+\frac{p}{2\tau}} $$\\
+	$$\tau' = (\frac{1}{\tau_0}+\frac{p}{\tau})^{-1} $$
+	
+	
+	\item Full conditional of $\beta_{1i}$:
+	\begin{align*}
+		\beta_{1i}|Y_{ij},\beta_{0i}, \tau, \tau_0, \tau_1 &= \beta_{1i}|Y_{ij} \sim p(\beta_{1i})\prod_{j=1}^{p}p(Y_{ij}) \\
+		&=\text{No}(\beta_{1i}|\mu_1, \tau_1)\prod_{j=1}^{p}\text{No}(Y_{ij}|\beta_{0i}+\beta_{1i}x_j, \tau) \\
+		&\propto \exp\{-\frac{(\beta_{1i}-\mu_1)^2}{2\tau_1}\}\prod_{j=1}^{p}\exp\{-\frac{(Y_{ij}-(\beta_{0i}+\beta_{1i}x_j))^2}{2\tau}\} \\
+		&=\exp\{-\frac{(\beta_{1i}-\mu_1)^2}{2\tau_1}-\frac{\sum\nolimits_{j=1}^p(Y_{ij}-(\beta_{0i}+\beta_{1i}x_j))^2}{2\tau}\} \\	
+		&\propto \exp\{-\frac{\beta_{1i}^2-2\beta_{1i}\mu_1}{2\tau_1}-\frac{\sum\nolimits_{j=1}^p(\beta_{1i}^2x_j^2-2\beta_{1i}x_j(Y_{ij}-\beta_{0i}))}{2\tau}\}\\
+		&=\exp\{-\frac{1}{2}(\frac{1}{\tau_1}+\frac{\sum\nolimits_{j=1}^p x_j^2}{\tau})\beta_{1i}^2+[\frac{\mu_1}{\tau_1}+\frac{\sum\nolimits_{j=1}^p x_j(Y_{ij}-\beta_{0i})}{\tau}]\beta_{1i}  \}\\
+		&=\exp\{-\frac{1}{2}(\frac{1}{\tau_1}+\frac{\sum\nolimits_{j=1}^p x_j^2}{\tau})[\beta_{1i}^2-2\beta_{1i}\frac{\tau\mu_1}{\tau+\tau_1\sum\nolimits_{j=1}^p x_j^2}] \}\\
+		&\propto \text{No}(\beta_{1i}|\mu'', \tau'')
+	\end{align*}
+	where
+	$$\mu''= \frac{\tau\mu_1}{\tau+\tau_1\sum\nolimits_{j=1}^p x_j^2} $$\\
+	$$\tau'' = (\frac{1}{\tau_1}+\frac{\sum\nolimits_{j=1}^p x_j^2}{\tau})^{-1} $$
+	
+	\item Gibbs sampler (see R code) with 1000 post-burnin draws was implemented. It was found that:
+	$$\text{Pr}(\beta_{1i}>0.5)=0.3349$$.
+	\end{enumerate}
+
+\pagebreak
+R code for Gibbs sampler:
+\listinginput[1]{1}{lab7amend.r}
+
+\end{document} 

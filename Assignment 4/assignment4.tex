@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{moreverb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\title{STA 360: Assignment 4}
+\author{Michael Lin}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\item Posterior predictive derived as follows:
+$$ X_{n+1} = \theta + Z $$
+given $x_{1:n}$. Since $\theta\sim \text{Normal}(3,1)$ and $Z \sim \text{Normal}(0,\lambda^{-1})$, we can use the linearity of normal distribution to get:
+$$ X_{n+1} \sim \text{Normal}(3+0, 1+\lambda^{-1}) = \text{Normal}(3, 1+\lambda^{-1}) $$
+
+\setcounter{enumi}{2}
+
+\item The i.i.d. normal model might not be appropriate because global warming may influence amount of snowfall in a certain direction. For example, if global warming causes higher snowfall, then each city would report increasingly higher snowfall over the years, and the snowfall distribution would be left skewed.
+
+\item Here, we chose a normal-gamma prior with the following parameters:
+\begin{align*}
+m &= 300 \\
+c &= 1 \\
+a &= 1/2 \\
+b &= 80^2a = 3200
+\end{align*}
+The method of sampling the random variates from the posterior distribution NormalGamma$(M, C, A, B)$ is simple:
+\begin{itemize}
+\item The posterior precision $\tau$ has distribution Gamma$(A,B)$
+\item The posterior mean $\mu$ has distribution Normal$(M,1/(C\tau))$
+\end{itemize}
+
+Using Monte Carlo approximation and the above prior hyperparameters, we were able to obtain an empirical value for probability that the mean annual snowfall for Valdez is higher than that of Aomori. With sample size of 10000, we found that:
+$$\mathds{P}(\mu_v > \mu_a | x_{1:n_v}, y_{1:n_a}) \approx 0.9906$$
+As a result, we infer that indeed the mean annual snowfall for Valdez is higher than that of Aomori.
+
+\item The following table summarizes the probability (three different trials) that the mean annual snowfall for Valdez is higher than that of Aomori for a few different settings of the prior hyperparameters.
+
+\begin{center}
+\begin{tabular}{c || c | c | c | c}
+$\mathds{P}(\mu_v > \mu_a) $ & $m$ & $c$ & $a$ & $b$ \\ \hline
+0.9906, 0.9903, 0.9916 & 300 & 1 & 1/2 & 3200 \\
+0.9883, 0.9903, 0.9903 & 500 & 1 & 1/2 & 3200 \\
+0.9907, 0.9896, 0.9889 & 300 & 1 & 5 & 3200 \\
+0.9887, 0.9888, 0.9901 & 300 & 1 & 1/2 & 5000
+\end{tabular}
+\end{center}
+
+\end{enumerate}
+
+\pagebreak
+
+See below for R code of Monte Carlo approximation.
+
+\listinginput[1]{1}{snowfall.r}
+\end{document}

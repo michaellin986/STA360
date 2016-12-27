@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{moreverb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\title{STA 360: Assignment 3}
+\author{Michael Lin}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\item Let $\tau^2=\theta$, the marginal distribution of $x$ is:
+\begin{align*}
+p(x)&=\int\limits_{0}^{\infty } \text{Normal}(0,1/\tau^2)\text{Gamma}(\nu/2,\nu/2) \\
+&=\int\limits_{0}^{\infty} \frac{1}{\sqrt{2\pi/\tau^2}}\exp\{-\frac{x^2}{2/\tau^2} \} \frac{(\nu/2)^{\nu/2}}{\Gamma(\nu/2)}(\tau^2)^{\nu/2-1}\exp\{-\nu/2 \tau^2 \} \\
+\end{align*}
+\end{enumerate}
+\end{document}

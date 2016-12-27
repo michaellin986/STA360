@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{moreverb}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{dsfont}
+\title{STA 360: Practice Problem}
+\author{Michael Lin}
+
+\begin{document}
+\maketitle
+
+Find the stationary distribution $\pi$ of transition matrix $T$:
+\begin{center}
+$T = 
+\begin{bmatrix}
+0 & 0 & 1/2 & 0 & 1/2 \\
+0 & 0 & 1 & 0 & 0 \\
+1/4 & 1/4 & 0 & 1/4 & 1/4 \\
+0 & 0 & 1/2 & 0 & 1/2 \\
+0 & 0 & 0 & 0 & 1 \\
+\end{bmatrix}
+$
+\end{center}
+
+\textbf{Answer:} $\pi=
+\begin{bmatrix}
+0 & 0 & 0 & 0 & 1 \\
+\end{bmatrix}
+$
+
+\textbf{Solution:} Compute $\lim\limits_{n\to \infty} T^n$ and read off the first row.
+
+\end{document}
